@@ -1,0 +1,198 @@
+<html>
+  <head>
+    <title>F0CAL</title>
+    <link rel="stylesheet" href="https://unpkg.com/carbon-components@9.90.0/css/carbon-components.min.css">
+    <script src="https://unpkg.com/carbon-components@9.91.0/scripts/carbon-components.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script type="text/javascript">
+      (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
+      ;r.type="text/javascript";r.async=true
+      ;r.src="https://cdn.amplitude.com/libs/amplitude-4.4.0-min.gz.js"
+      ;r.onload=function(){if(e.amplitude.runQueuedFunctions){
+      e.amplitude.runQueuedFunctions()}else{
+      console.log("[Amplitude] Error: could not load SDK")}}
+      ;var i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)
+      ;function s(e,t){e.prototype[t]=function(){
+      this._q.push([t].concat(Array.prototype.slice.call(arguments,0)));return this}}
+      var o=function(){this._q=[];return this}
+      ;var a=["add","append","clearAll","prepend","set","setOnce","unset"]
+      ;for(var u=0;u<a.length;u++){s(o,a[u])}n.Identify=o;var c=function(){this._q=[]
+      ;return this}
+      ;var l=["setProductId","setQuantity","setPrice","setRevenueType","setEventProperties"]
+      ;for(var p=0;p<l.length;p++){s(c,l[p])}n.Revenue=c
+      ;var d=["init","logEvent","logRevenue","setUserId","setUserProperties","setOptOut","setVersionName","setDomain","setDeviceId","setGlobalUserProperties","identify","clearUserProperties","setGroup","logRevenueV2","regenerateDeviceId","logEventWithTimestamp","logEventWithGroups","setSessionId","resetSessionId"]
+      ;function v(e){function t(t){e[t]=function(){
+      e._q.push([t].concat(Array.prototype.slice.call(arguments,0)))}}
+      for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){
+      e=(!e||e.length===0?"$default_instance":e).toLowerCase()
+      ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
+      ;e.amplitude=n})(window,document);
+    
+      amplitude.getInstance().init("c0ab00ebfc2c67bd44a7e7054f4ece16", null, {includeReferrer: true});
+    </script>
+    <script type="text/javascript">
+      window.onload = function() {
+        amplitude.getInstance().logEvent('PAGE_LOADED');
+
+        const handleSort = (index, rows) => {
+          function Comparator(a, b) {
+            if (a[index] < b[index]) return -1;
+            if (a[index] > b[index]) return 1;
+            return 0;
+          }
+          return rows.sort(Comparator);
+        }
+
+        const formattedData = window['__F0CAL'].index.reduce((acc, val, i) => {
+          const additionalData = window['__F0CAL'].data[i];
+          acc = [...acc, [...val, ...additionalData]];
+          return acc;
+        }, []);
+
+        const initialRows = handleSort(4, formattedData);
+  
+        new Vue({
+          el: '#app',
+          data: {
+            rows: initialRows
+          },
+          methods: {
+            sortRows(index) {
+              this.rows = handleSort(index, this.rows);
+            }
+          },
+        })
+      }
+    </script>
+    <style>
+      body {
+        background: #323232;
+      }
+      thead {
+        border-bottom: 1px solid rgb(118, 118, 118);
+        background-color: transparent !important;
+        border-right: none !important;
+      }
+      th {
+        border: none !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+      .metric {
+        position: absolute;
+        top: -25px;
+        right: 0;
+        width: 110px;
+      }
+      .anchor {
+        position: relative;
+      }
+      .latency {
+        color: #8EE6E3;
+      }
+      .throughput {
+        color: #EAA8DC;
+        /* color: #8AF2B4; */
+      }
+      .header__right {
+        text-align: right !important;
+      }
+      .center__val {
+        text-align: right !important;
+      }
+      .container {
+        padding-top: 30px;
+      }
+      .bx--data-table-v2 td {
+        border: none;
+      }
+      .bx--table-header-label--sort {
+        position: relative;
+        cursor: pointer;
+      }
+      .bx--table-header-label--sort:hover::after {
+        content: "\2193";
+        position: absolute;
+        left: 115%;
+        font-size: 15px;
+        top: 2px;
+      }
+      .bx--data-table-v2 {
+        border-bottom: none;
+      }
+      .bx--data-table-v2--zebra tbody tr:nth-child(even) {
+        background-color: #323232 !important;
+      }
+      td {
+        color: white !important;
+        border-left: none !important;
+      }
+      tbody {
+        background-color: #292929 !important;
+        border-right: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="bx--data-table-v2-container container" data-table-v2>
+        <table class="bx--data-table-v2 bx--data-table-v2--zebra">
+          <thead>
+            <tr>
+                <th>
+                  <span class="bx--table-header-label--sort" v-on:click="sortRows(0)">Name</span>
+                </th>
+                <th>
+                  <span class="bx--table-header-label--sort" v-on:click="sortRows(1)">Width</span>
+                </th>
+                <th>
+                  <span class="bx--table-header-label--sort" v-on:click="sortRows(2)">Height</span>
+                </th>  
+                <th>
+                  <span class="bx--table-header-label--sort" v-on:click="sortRows(3)">Count</span>    
+                </th>
+                <th class="header__right">
+                  <span class="bx--table-header-label--sort latency anchor" v-on:click="sortRows(4)">
+                    Min
+                    <span class="metric latency">Latency (ms)</span>
+                  </span>
+                </th>
+                <th class="header__right">
+                  <span class="bx--table-header-label--sort latency" v-on:click="sortRows(5)">Max</span>
+                </th>
+                <th class="header__right">
+                  <span class="bx--table-header-label--sort latency" v-on:click="sortRows(6)">Mean</span>
+                </th>
+                <th class="header__right">
+                  <span class="bx--table-header-label--sort throughput anchor" v-on:click="sortRows(7)">
+                    Min
+                    <span class="metric throughput">Throughput (fps)</span>
+                  </span>
+                </th>
+                <th class="header__right">
+                  <span class="bx--table-header-label--sort throughput" v-on:click="sortRows(8)">Max</span>
+                </th>
+                <th class="header__right">
+                  <span class="bx--table-header-label--sort throughput" v-on:click="sortRows(9)">Mean</span>
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in rows">
+              <td v-for="(item, i) in row" v-bind:class="{'center__val': (i === 4 || i === 5 || i === 6 || i === 7 || i === 8 || i === 9)}">
+                <span v-if="i === 4 || i === 5 || i === 6" class="latency">
+                  {{ item.toFixed(2) }}
+                </span>
+                <span v-else-if="i === 7 || i === 8 || i === 9" class="throughput">
+                  {{ item.toFixed(2) }}
+                </span>
+                <span v-else>
+                  {{ item }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
